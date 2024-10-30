@@ -1,6 +1,7 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import User from '../models/User';
 import Book from '../models/Book';
+import Record from '../models/Record';
 
 const sequelize = new Sequelize('librarycase', 'postgres', 'password', {
   host: 'localhost',
@@ -10,7 +11,8 @@ const sequelize = new Sequelize('librarycase', 'postgres', 'password', {
 const db = {
   sequelize,
   User,
-  Book
+  Book,
+  Record
 };
 
 User.init(
@@ -48,8 +50,11 @@ Book.init(
     },
     rating: {
       type: DataTypes.DOUBLE,
+    },
+    status: {
+      type: DataTypes.ENUM('AVAILABLE', 'BORROWED'),
       allowNull: false,
-      defaultValue: 0
+      defaultValue: 'AVAILABLE'
     }
   },
   {
@@ -57,5 +62,40 @@ Book.init(
     tableName: 'book',
   }
 );
+  
+Record.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false
+    },
+    borrowDate: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    returnDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    status: {
+      type: DataTypes.ENUM('BORROWED', 'RETURNED'),
+      defaultValue: 'BORROWED',
+    },
+    rating: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      validate: { min: 1, max: 10 },
+    },
+  },
+  {
+    sequelize,
+    tableName: 'record',
+  }
+);
+
+Record.belongsTo(User, { foreignKey: 'userId' });
+Record.belongsTo(Book, { foreignKey: 'bookId' });
 
 export default db;

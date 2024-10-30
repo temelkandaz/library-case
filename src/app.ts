@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import db from "./database/config";
 
 const express = require('express');
@@ -67,6 +68,64 @@ app.get('/books/:id', async (req, res) => {
   console.log(JSON.stringify(book));
   
   res.send(book);
+});
+
+app.post('/users/:userId/borrow/:bookId', async (req, res) => {
+  const userId = req.params.userId;
+
+  const user = await db.User.findByPk(userId);
+
+  const bookId = req.params.bookId;
+  
+  const book = await db.Book.findByPk(bookId);
+  
+  const record = await db.Record.create({
+    userId,
+    bookId,
+    status: "BORROWED",
+    rating: null
+  });
+
+  book.status = "BORROWED";
+  await book.save();
+
+  res.send(record);
+});
+
+app.post('/users/:userId/return/:bookId', async (req, res) => {
+  const userId = req.params.userId;
+
+  const user = await db.User.findByPk(userId);
+
+  const bookId = req.params.bookId;
+  
+  const book = await db.Book.findByPk(bookId);
+
+  const score = req.body.score;
+
+  const record = await db.Record.findOne({
+    where: { userId, bookId, status: 'BORROWED' },
+  });
+
+  record.returnDate = new Date();
+  record.status = "RETURNED";
+  record.rating = score;
+  await record.save();
+
+  book.status = "AVAILABLE";
+
+  const borrowRecords = await db.Record.findAll({
+    where: { bookId, rating: { [Op.ne]: null } }
+  });
+
+  const total = borrowRecords.reduce((sum, item) => sum + item.rating, 0);
+  const avgRating = borrowRecords.length ? total / borrowRecords.length : 0;
+
+  book.rating = avgRating;
+
+  await book.save();
+
+  res.send(record);
 });
 
 db.sequelize.sync({ force: true }).then(function () {
