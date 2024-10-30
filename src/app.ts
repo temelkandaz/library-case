@@ -42,6 +42,33 @@ app.get('/users/:id', async (req, res) => {
   res.send(user);
 });
 
+app.post('/books', async (req, res) => {
+  const name = req.body.name;
+  console.log("name: " + name);
+
+  const book = await db.Book.create({ name });
+  
+  res.send(book);
+});
+
+app.get('/books', async (req, res) => {
+  const books = await db.Book.findAll();
+
+  console.log(JSON.stringify(books));
+  
+  res.send(books);
+});
+
+app.get('/books/:id', async (req, res) => {
+  const bookId = req.params.id;
+
+  const book = await db.Book.findByPk(bookId);
+
+  console.log(JSON.stringify(book));
+  
+  res.send(book);
+});
+
 db.sequelize.sync({ force: true }).then(function () {
     app.listen(PORT, function () {
       console.log("server is successfully running!");
