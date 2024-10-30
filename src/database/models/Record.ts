@@ -1,4 +1,5 @@
 import { Model } from "sequelize";
+import Book from "./Book";
 
 class Record extends Model {
     public id!: number;
@@ -8,6 +9,8 @@ class Record extends Model {
     public returnDate!: Date | null;
     public status!: 'BORROWED' | 'RETURNED';
     public rating!: number | null;
+
+    public Book?: Book;
   }
   
   export default Record;

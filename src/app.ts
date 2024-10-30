@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import db from "./database/config";
+import Book from "./database/models/Book";
 
 const express = require('express');
 
@@ -38,9 +39,34 @@ app.get('/users/:id', async (req, res) => {
 
   const user = await db.User.findByPk(userId);
 
-  console.log(JSON.stringify(user));
-  
-  res.send(user);
+  const records = await db.Record.findAll({
+    include: [{
+      model: Book,
+      attributes: ['id', 'name', 'rating']
+    }]
+  });
+
+  const borrowedRecords = records.filter(record => record.status == "BORROWED"); 
+  const returnedRecords = records.filter(record => record.status == "RETURNED");
+
+  const borrowedBooks = borrowedRecords.map(borrowedRecord => {
+    return borrowedRecord.Book;
+  });
+
+  const returnedBooks = returnedRecords.map(returnedRecord => {
+    return returnedRecord.Book;
+  });
+
+  const resp = {
+    id: user.id,
+    name: user.name,
+    borrowed_books: borrowedBooks,
+    returned_books: returnedBooks
+  }
+
+  console.log(resp);
+
+  res.send(resp);
 });
 
 app.post('/books', async (req, res) => {
