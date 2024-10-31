@@ -2,6 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from '../config/config';
 import Book from "./Book";
 import User from "./User";
+import { RecordStatus } from "./enums/RecordStatus";
 
 class Record extends Model {
     public id!: number;
@@ -9,7 +10,7 @@ class Record extends Model {
     public bookId!: number;
     public borrowDate!: Date;
     public returnDate!: Date | null;
-    public status!: 'BORROWED' | 'RETURNED';
+    public status!: RecordStatus;
     public rating!: number | null;
 
     public Book?: Book;
@@ -32,8 +33,8 @@ Record.init(
       allowNull: true,
     },
     status: {
-      type: DataTypes.ENUM('BORROWED', 'RETURNED'),
-      defaultValue: 'BORROWED',
+      type: DataTypes.ENUM(...Object.values(RecordStatus)),
+      defaultValue: RecordStatus.BORROWED,
     },
     rating: {
       type: DataTypes.INTEGER,

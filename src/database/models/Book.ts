@@ -1,11 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from '../config/config';
+import { BookStatus } from "./enums/BookStatus";
 
 class Book extends Model {
   public id!: number;
   public name!: string;
   public rating: number | null; 
-  public status!: 'AVAILABLE' | 'BORROWED';
+  public status!: BookStatus;
 }
 
 Book.init(
@@ -25,9 +26,9 @@ Book.init(
       type: DataTypes.DOUBLE,
     },
     status: {
-      type: DataTypes.ENUM('AVAILABLE', 'BORROWED'),
+      type: DataTypes.ENUM(...Object.values(BookStatus)),
       allowNull: false,
-      defaultValue: 'AVAILABLE'
+      defaultValue: BookStatus.AVAILABLE
     }
   },
   {
