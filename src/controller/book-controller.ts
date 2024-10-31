@@ -1,45 +1,35 @@
 import { Request, Response, NextFunction } from "express";
+import { catchError } from "./decorator/catch-error";
 
-export class BookController {
+class BookController {
 
+    @catchError
     async createBookByName(req: Request, res: Response, next: NextFunction) {
-        try {
-            const name = req.body.name;
-
-            // check if name exists
-          
-            const book = await req.db.Book.create({ name });
-            
-            res.send(book);
-        } 
-        catch (error) {
-            next(error);
-        }
+        const name = req.body.name;
+        // check if name exists
+        
+        const book = await req.db.Book.create({ name });
+        
+        res.send(book);
     }
 
+    @catchError
     async getBooks(req: Request, res: Response, next: NextFunction) {    
-        try {
-            const books = await req.db.Book.findAll();
+        const books = await req.db.Book.findAll();
             
-            res.send(books);
-        }
-        catch (error) {
-            next(error);
-        }
+        res.send(books);
     }
 
+    @catchError
     async getBookById(req: Request, res: Response, next: NextFunction) {
-        try {
-            const bookId = req.params.id;
+        const bookId = req.params.id;
           
-            const book = await req.db.Book.findByPk(bookId);
+        const book = await req.db.Book.findByPk(bookId);
 
-            // check book exists
+        // check book exists
             
-            res.send(book);
-        }
-        catch (error) {
-            next(error);
-        }
+        res.send(book);
     }
 }
+
+export default BookController;

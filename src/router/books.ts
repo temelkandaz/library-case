@@ -4,7 +4,7 @@ import {
     validateGetUserOrBookInput 
 } from "../validation/validation";
 import { validateRequest } from "../middleware/request-validator";
-import { BookController } from "../controller/book-controller";
+import BookController from "../controller/book-controller";
 
 const router = Router();
 const bookController = new BookController();

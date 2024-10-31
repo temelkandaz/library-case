@@ -6,7 +6,7 @@ import {
   validateReturnBookInput 
 } from '../validation/validation';
 import { validateRequest } from '../middleware/request-validator';
-import { UserController } from '../controller/user-controller';
+import UserController from '../controller/user-controller';
 
 const router = Router();
 const userController = new UserController();
