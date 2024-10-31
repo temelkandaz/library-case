@@ -1,7 +1,8 @@
 import db from "./database/config";
 import { NextFunction, Request } from "express";
-import usersRouter from './route/users';
-import booksRouter from './route/books';
+import usersRouter from './router/users';
+import booksRouter from './router/books';
+import { errorHandler } from "./middleware/errorHandler";
 
 const express = require('express');
 
@@ -22,7 +23,9 @@ const dbMiddleware = (req: Request, res: Response, next: NextFunction) => {
 app.use(dbMiddleware);
 
 app.use('/users', usersRouter);
-app.use('/books', booksRouter)
+app.use('/books', booksRouter);
+
+app.use(errorHandler);
 
 db.sequelize.sync({ force: true }).then(function () {
     app.listen(PORT, function () {
