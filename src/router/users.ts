@@ -1,10 +1,17 @@
 import { Router } from 'express';
 import Book from '../database/models/Book';
 import { Op } from 'sequelize';
+import { 
+  validateBorrowBookInput, 
+  validateCreateUserInput, 
+  validateGetUserOrBookInput, 
+  validateReturnBookInput 
+} from '../validation/validation';
+import { validateRequest } from '../middleware/request-validator';
 
 const router = Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/', validateCreateUserInput, validateRequest, async (req, res, next) => {
     try {
         const name = req.body.name;
         console.log("name: " + name);
@@ -31,7 +38,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', validateGetUserOrBookInput, validateRequest, async (req, res, next) => {
     try {
         const userId = req.params.id;
       
@@ -71,7 +78,7 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/:userId/borrow/:bookId', async (req, res, next) => {
+router.post('/:userId/borrow/:bookId', validateBorrowBookInput, validateRequest, async (req, res, next) => {
     try {
         const userId = req.params.userId;
     
@@ -98,7 +105,7 @@ router.post('/:userId/borrow/:bookId', async (req, res, next) => {
     }
 });
   
-router.post('/:userId/return/:bookId', async (req, res, next) => {
+router.post('/:userId/return/:bookId', validateReturnBookInput, validateRequest, async (req, res, next) => {
     try {
         const userId = req.params.userId;
   

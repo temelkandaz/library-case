@@ -1,8 +1,13 @@
 import { Router } from "express";
+import { 
+    validateCreateBookInput, 
+    validateGetUserOrBookInput 
+} from "../validation/validation";
+import { validateRequest } from "../middleware/request-validator";
 
 const router = Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/', validateCreateBookInput, validateRequest, async (req, res, next) => {
     try {
         const name = req.body.name;
         console.log("name: " + name);
@@ -29,7 +34,7 @@ router.get('/', async (req, res, next) => {
     }
 });
   
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', validateGetUserOrBookInput, validateRequest, async (req, res, next) => {
     try {
         const bookId = req.params.id;
       
