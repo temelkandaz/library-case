@@ -2,7 +2,7 @@ import db from "./database/config";
 import { NextFunction, Request } from "express";
 import usersRouter from './router/users';
 import booksRouter from './router/books';
-import { errorHandler } from "./middleware/errorHandler";
+import { errorHandler } from "./middleware/error-handler";
 
 const express = require('express');
 
@@ -29,6 +29,6 @@ app.use(errorHandler);
 
 db.sequelize.sync({ force: true }).then(function () {
     app.listen(PORT, function () {
-      console.log("server is successfully running!");
+      console.log("Server is successfully running!");
     });
 });
