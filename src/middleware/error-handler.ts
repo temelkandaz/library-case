@@ -12,7 +12,7 @@ export const errorHandler = (
   console.error(err.stack);
 
   const message = err.message || 'Internal Server Error';
-  const stack = err.stack;
+  const stack = JSON.stringify(err.stack);
   const errorCode = err instanceof LibraryAppError 
     ? err.errorCode : LibraryAppErrorCode.UNDEFINED_ERROR;
 

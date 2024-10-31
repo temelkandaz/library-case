@@ -1,7 +1,7 @@
 import { check, param } from 'express-validator';
 
 export const validateCreateUserInput = [
-    check('name').notEmpty().withMessage('Name is required!').isString().withMessage('Name must be a string!')
+    check('name').notEmpty().withMessage('name is required!').isString().withMessage('name must be a string!')
 ];
 
 export const validateGetUserOrBookInput = [
@@ -20,5 +20,5 @@ export const validateReturnBookInput = [
 ];
 
 export const validateCreateBookInput = [
-    check('name').isString().withMessage('Name must be a string!').notEmpty().withMessage('Name is required!')
+    check('name').notEmpty().withMessage('name is required!').isString().withMessage('name must be a string!')
 ];
