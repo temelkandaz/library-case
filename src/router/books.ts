@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   validateCreateBookInput,
   validateGetUserOrBookInput,
-} from "../validation/validation";
+} from "../utils/validation";
 import { validateRequest } from "../middleware/request-validator";
 import BookController from "../controller/book-controller";
 

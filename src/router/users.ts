@@ -4,7 +4,7 @@ import {
   validateCreateUserInput,
   validateGetUserOrBookInput,
   validateReturnBookInput,
-} from "../validation/validation";
+} from "../utils/validation";
 import { validateRequest } from "../middleware/request-validator";
 import UserController from "../controller/user-controller";
 

@@ -1,3 +1,4 @@
+require("dotenv").config();
 import db from "./database/config";
 import { NextFunction, Request } from "express";
 import usersRouter from "./router/users";
