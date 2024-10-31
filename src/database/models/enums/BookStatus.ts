@@ -1,4 +1,4 @@
 export enum BookStatus {
-    AVAILABLE = 'AVAILABLE',
-    BORROWED = 'BORROWED'
-};
+  AVAILABLE = "AVAILABLE",
+  BORROWED = "BORROWED",
+}

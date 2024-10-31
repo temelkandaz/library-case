@@ -1,19 +1,19 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from '../config/config';
+import sequelize from "../config/config";
 import Book from "./Book";
 import User from "./User";
 import { RecordStatus } from "./enums/RecordStatus";
 
 class Record extends Model {
-    public id!: number;
-    public userId!: number;
-    public bookId!: number;
-    public borrowDate!: Date;
-    public returnDate!: Date | null;
-    public status!: RecordStatus;
-    public rating!: number | null;
+  public id!: number;
+  public userId!: number;
+  public bookId!: number;
+  public borrowDate!: Date;
+  public returnDate!: Date | null;
+  public status!: RecordStatus;
+  public rating!: number | null;
 
-    public Book?: Book;
+  public Book?: Book;
 }
 
 Record.init(
@@ -22,7 +22,7 @@ Record.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false
+      allowNull: false,
     },
     borrowDate: {
       type: DataTypes.DATE,
@@ -44,11 +44,11 @@ Record.init(
   },
   {
     sequelize,
-    tableName: 'record',
-  }
+    tableName: "record",
+  },
 );
 
-Record.belongsTo(User, { foreignKey: 'userId' });
-Record.belongsTo(Book, { foreignKey: 'bookId' });
+Record.belongsTo(User, { foreignKey: "userId" });
+Record.belongsTo(Book, { foreignKey: "bookId" });
 
 export default Record;

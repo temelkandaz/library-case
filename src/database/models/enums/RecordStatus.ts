@@ -1,4 +1,4 @@
 export enum RecordStatus {
-    BORROWED = 'BORROWED',
-    RETURNED = 'RETURNED'
-};
+  BORROWED = "BORROWED",
+  RETURNED = "RETURNED",
+}
